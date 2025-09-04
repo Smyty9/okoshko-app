@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Окошко - Простая запись к мастерам в Telegram</title>
+    <meta name="description" content="Окошко - сверхлегкий сервис для онлайн-записи к частным мастерам через Telegram Mini App. Простота в 3 клика!">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .telegram-blue {
+            background-color: #0088cc;
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="fixed w-full top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center">
+                        <i class="fas fa-window-maximize text-white text-sm"></i>
+                    </div>
+                    <span class="text-xl font-bold gradient-text">Окошко</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="about.html" class="text-gray-600 hover:text-gray-900 transition-colors">О проекте</a>
+                    <a href="demo.html" class="text-gray-600 hover:text-gray-900 transition-colors">Демо</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-gray-900 transition-colors">Тарифы</a>
+                    <a href="contacts.html" class="text-gray-600 hover:text-gray-900 transition-colors">Контакты</a>
+                </div>
+                <button class="telegram-blue text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                    <i class="fab fa-telegram-plane mr-2"></i>
+                    Открыть в Telegram
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-16 gradient-bg min-h-screen flex items-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="text-white">
+                    <h1 class="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                        Запись к мастеру 
+                        <span class="block">в 3 клика</span>
+                    </h1>
+                    <p class="text-xl mb-8 text-white/90 leading-relaxed">
+                        Сверхлегкий сервис для онлайн-записи к частным мастерам прямо в Telegram. 
+                        Никаких сложных регистраций — просто поделитесь ссылкой!
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button class="bg-white text-purple-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-colors flex items-center justify-center">
+                            <i class="fab fa-telegram-plane mr-2"></i>
+                            Попробовать сейчас
+                        </button>
+                        <button class="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-purple-600 transition-colors">
+                            Посмотреть демо
+                        </button>
+                    </div>
+                    <div class="mt-8 flex items-center space-x-6 text-white/80">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle mr-2"></i>
+                            <span>Бесплатно для старта</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span>Настройка за 5 минут</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:text-center">
+                    <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
+                        <h3 class="text-white text-2xl font-bold mb-6">Статус проекта</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between text-white">
+                                <span>Версия</span>
+                                <span class="bg-green-500 px-3 py-1 rounded-full text-sm font-semibold">MVP 1.1</span>
+                            </div>
+                            <div class="flex items-center justify-between text-white">
+                                <span>Статус</span>
+                                <span class="bg-yellow-500 px-3 py-1 rounded-full text-sm font-semibold text-gray-900">В разработке</span>
+                            </div>
+                            <div class="flex items-center justify-between text-white">
+                                <span>Готовность</span>
+                                <span class="bg-blue-500 px-3 py-1 rounded-full text-sm font-semibold">60%</span>
+                            </div>
+                        </div>
+                        <div class="mt-6 pt-6 border-t border-white/20">
+                            <p class="text-white/80 text-sm leading-relaxed">
+                                Проект находится на этапе создания MVP. Фундамент готов, 
+                                ведется разработка пользовательских интерфейсов.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Почему именно Окошко?</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Мы создали самый простой способ записи к мастеру. Никаких сложных CRM-систем — только то, что действительно нужно.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card-hover bg-white p-8 rounded-2xl border border-gray-100 shadow-lg">
+                    <div class="feature-icon w-12 h-12 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-mouse-pointer text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">3 клика до записи</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Выбрал услугу → выбрал время → записался. Клиенту не нужно регистрироваться 
+                        или заполнять формы — все данные берутся из Telegram.
+                    </p>
+                </div>
+                
+                <div class="card-hover bg-white p-8 rounded-2xl border border-gray-100 shadow-lg">
+                    <div class="feature-icon w-12 h-12 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fab fa-telegram-plane text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Нативность Telegram</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Приложение работает прямо в Telegram через Mini App. Клиенты не покидают 
+                        привычный интерфейс мессенджера.
+                    </p>
+                </div>
+                
+                <div class="card-hover bg-white p-8 rounded-2xl border border-gray-100 shadow-lg">
+                    <div class="feature-icon w-12 h-12 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-link text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Простая ссылка</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Мастер получает одну ссылку и делится ей с клиентами. В соцсетях, 
+                        в Stories, в сообщениях — где угодно.
+                    </p>
+                </div>
+                
+                <div class="card-hover bg-white p-8 rounded-2xl border border-gray-100 shadow-lg">
+                    <div class="feature-icon w-12 h-12 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-bell text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Уведомления</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Мастер получает уведомления о новых записях прямо в Telegram. 
+                        Никаких пропущенных клиентов.
+                    </p>
+                </div>
+                
+                <div class="card-hover bg-white p-8 rounded-2xl border border-gray-100 shadow-lg">
+                    <div class="feature-icon w-12 h-12 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-calendar-alt text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Актуальный календарь</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Клиенты видят только свободные слоты в реальном времени. 
+                        Никаких конфликтов в расписании.
+                    </p>
+                </div>
+                
+                <div class="card-hover bg-white p-8 rounded-2xl border border-gray-100 shadow-lg">
+                    <div class="feature-icon w-12 h-12 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-rocket text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Быстрый старт</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Настройка занимает 5 минут: добавил услуги, указал график работы — 
+                        и можно принимать записи.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works Section -->
+    <section id="how-it-works" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Как это работает</h2>
+                <p class="text-xl text-gray-600">Простой процесс для мастеров и их клиентов</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-16">
+                <!-- For Masters -->
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-8 flex items-center">
+                        <i class="fas fa-user-tie mr-3 text-purple-600"></i>
+                        Для мастеров
+                    </h3>
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">1</div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Открываете бота @okoshko_app_bot</h4>
+                                <p class="text-gray-600">Запускаете Mini App прямо в Telegram</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">2</div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Добавляете свои услуги</h4>
+                                <p class="text-gray-600">Указываете название, длительность и цену каждой услуги</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">3</div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Настраиваете график</h4>
+                                <p class="text-gray-600">Задаете рабочие дни и часы работы</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">4</div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Делитесь ссылкой</h4>
+                                <p class="text-gray-600">Получаете уникальную ссылку и делитесь ей с клиентами</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- For Clients -->
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-8 flex items-center">
+                        <i class="fas fa-users mr-3 text-blue-600"></i>
+                        Для клиентов
+                    </h3>
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">1</div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Переходят по ссылке</h4>
+                                <p class="text-gray-600">Получают ссылку от мастера и открывают её в Telegram</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">2</div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Выбирают услугу</h4>
+                                <p class="text-gray-600">Видят список доступных услуг с ценами и длительностью</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">3</div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Выбирают время</h4>
+                                <p class="text-gray-600">Открывается календарь со свободными слотами</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">4</div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Подтверждают запись</h4>
+                                <p class="text-gray-600">Данные автоматически заполняются из Telegram профиля</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Простые тарифы</h2>
+                <p class="text-xl text-gray-600">Начните бесплатно, растите вместе с нами</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="bg-white p-8 rounded-2xl border-2 border-gray-200 shadow-lg">
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Старт</h3>
+                        <div class="text-4xl font-bold text-gray-900 mb-2">
+                            €0
+                            <span class="text-lg font-normal text-gray-600">/месяц</span>
+                        </div>
+                        <p class="text-gray-600">Для знакомства с сервисом</p>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>До 3 услуг</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>До 15 записей в месяц</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Базовый календарь</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Уведомления в Telegram</span>
+                        </li>
+                    </ul>
+                    <button class="w-full bg-gray-100 text-gray-700 py-3 px-6 rounded-xl font-semibold hover:bg-gray-200 transition-colors">
+                        Попробовать бесплатно
+                    </button>
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl border-2 border-purple-600 shadow-xl relative">
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <span class="bg-purple-600 text-white px-4 py-1 rounded-full text-sm font-semibold">Рекомендуем</span>
+                    </div>
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Профи</h3>
+                        <div class="text-4xl font-bold text-purple-600 mb-2">
+                            €5
+                            <span class="text-lg font-normal text-gray-600">/месяц</span>
+                        </div>
+                        <p class="text-gray-600">Для активных мастеров</p>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Неограниченно услуг</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Неограниченно записей</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Продвинутый календарь</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Приоритетная поддержка</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-star text-purple-500 mr-3"></i>
+                            <span>Ранний доступ к новым функциям</span>
+                        </li>
+                    </ul>
+                    <button class="w-full gradient-bg text-white py-3 px-6 rounded-xl font-semibold hover:opacity-90 transition-opacity">
+                        Начать с Профи
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Дорожная карта развития</h2>
+                <p class="text-xl text-gray-600">Что уже готово и что планируется</p>
+            </div>
+            
+            <div class="space-y-8">
+                <!-- Current Stage -->
+                <div class="bg-green-50 border-2 border-green-200 rounded-2xl p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-4 h-4 bg-green-500 rounded-full mr-4"></div>
+                        <h3 class="text-xl font-bold text-gray-900">Этап 0: Фундамент — ЗАВЕРШЕН</h3>
+                        <span class="ml-auto bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">✓ Готово</span>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4 text-gray-700">
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Анализ рынка и концепция</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Создан бот @okoshko_app_bot</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Настройка окружения разработки</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Стратегия развертывания через Netlify</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Current Stage -->
+                <div class="bg-yellow-50 border-2 border-yellow-200 rounded-2xl p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-4 h-4 bg-yellow-500 rounded-full mr-4"></div>
+                        <h3 class="text-xl font-bold text-gray-900">Этап 1: Разработка MVP — В ПРОЦЕССЕ</h3>
+                        <span class="ml-auto bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-semibold">60%</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        Создание пользовательских интерфейсов и подключение к бэкенду на n8n
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-4 text-gray-700">
+                        <div class="flex items-center">
+                            <i class="fas fa-clock text-yellow-500 mr-2"></i>
+                            <span>Интерфейсы для мастеров</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-clock text-yellow-500 mr-2"></i>
+                            <span>Календарь записи</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-clock text-yellow-500 mr-2"></i>
+                            <span>Интеграция с бэкендом</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-clock text-yellow-500 mr-2"></i>
+                            <span>Развертывание на Netlify</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Future Stage -->
+                <div class="bg-blue-50 border-2 border-blue-200 rounded-2xl p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-4 h-4 bg-blue-500 rounded-full mr-4"></div>
+                        <h3 class="text-xl font-bold text-gray-900">Этап 2: Запуск и тестирование</h3>
+                        <span class="ml-auto bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Скоро</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        Тестирование с реальными мастерами и сбор обратной связи
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-4 text-gray-700">
+                        <div class="flex items-center">
+                            <i class="fas fa-users text-blue-500 mr-2"></i>
+                            <span>Тестирование с 2-3 мастерами</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-feedback text-blue-500 mr-2"></i>
+                            <span>Сбор отзывов и багфиксинг</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-chart-line text-blue-500 mr-2"></i>
+                            <span>Анализ использования</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-tools text-blue-500 mr-2"></i>
+                            <span>Оптимизация UX</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Future Stage -->
+                <div class="bg-purple-50 border-2 border-purple-200 rounded-2xl p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-4 h-4 bg-purple-500 rounded-full mr-4"></div>
+                        <h3 class="text-xl font-bold text-gray-900">Этап 3: Масштабирование</h3>
+                        <span class="ml-auto bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Планы</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        Добавление новых функций и расширение аудитории
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-4 text-gray-700">
+                        <div class="flex items-center">
+                            <i class="fas fa-credit-card text-purple-500 mr-2"></i>
+                            <span>Онлайн-оплата</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-star text-purple-500 mr-2"></i>
+                            <span>Система отзывов</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-mobile-alt text-purple-500 mr-2"></i>
+                            <span>Личный кабинет клиента</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-chart-bar text-purple-500 mr-2"></i>
+                            <span>Аналитика для мастеров</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Технологический стек</h2>
+                <p class="text-xl text-gray-600">Современные технологии для надежного сервиса</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fab fa-react text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">React</h3>
+                    <p class="text-gray-600 text-sm">Frontend разработка</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-database text-2xl text-green-600"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">Supabase</h3>
+                    <p class="text-gray-600 text-sm">База данных</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-server text-2xl text-purple-600"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">n8n</h3>
+                    <p class="text-gray-600 text-sm">Backend API</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fab fa-telegram-plane text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">Telegram</h3>
+                    <p class="text-gray-600 text-sm">Mini App платформа</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 gradient-bg">
+        <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-white mb-6">
+                Готовы упростить запись к мастеру?
+            </h2>
+            <p class="text-xl text-white/90 mb-8 leading-relaxed">
+                Присоединяйтесь к революции в сфере записи к мастерам. 
+                Попробуйте Окошко бесплатно и убедитесь в его простоте.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="bg-white text-purple-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-colors flex items-center justify-center">
+                    <i class="fab fa-telegram-plane mr-2"></i>
+                    Попробовать прямо сейчас
+                </button>
+                <button class="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-purple-600 transition-colors">
+                    Связаться с нами
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="col-span-2">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-window-maximize text-white text-sm"></i>
+                        </div>
+                        <span class="text-xl font-bold">Окошко</span>
+                    </div>
+                    <p class="text-gray-400 mb-4 max-w-md">
+                        Сверхлегкий сервис для онлайн-записи к частным мастерам 
+                        через Telegram Mini App. Простота в 3 клика.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-telegram-plane text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-white mb-4">Продукт</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#features" class="hover:text-white transition-colors">Возможности</a></li>
+                        <li><a href="#pricing" class="hover:text-white transition-colors">Тарифы</a></li>
+                        <li><a href="#roadmap" class="hover:text-white transition-colors">Развитие</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">API</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-white mb-4">Поддержка</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Документация</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Помощь</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Контакты</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Статус</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Окошко. Версия MVP 1.1 - В разработке</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

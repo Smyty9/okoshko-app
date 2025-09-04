@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О проекте - Окошко</title>
+    <meta name="description" content="Узнайте больше о проекте Окошко - сверхлегком сервисе для онлайн-записи к частным мастерам через Telegram Mini App.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="fixed w-full top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center">
+                        <i class="fas fa-window-maximize text-white text-sm"></i>
+                    </div>
+                    <a href="index.html" class="text-xl font-bold gradient-text">Окошко</a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900 transition-colors">Главная</a>
+                    <a href="about.html" class="text-purple-600 font-medium">О проекте</a>
+                    <a href="demo.html" class="text-gray-600 hover:text-gray-900 transition-colors">Демо</a>
+                    <a href="contacts.html" class="text-gray-600 hover:text-gray-900 transition-colors">Контакты</a>
+                </div>
+                <a href="index.html" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                    Вернуться на главную
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-16 gradient-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="text-center text-white">
+                <h1 class="text-5xl font-bold mb-6">О проекте Окошко</h1>
+                <p class="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+                    История создания, миссия и видение проекта, который упрощает запись к мастерам
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Наша миссия</h2>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                        Мы верим, что запись к мастеру должна быть простой и удобной как для клиентов, 
+                        так и для самих мастеров. Слишком много времени тратится на сложные системы, 
+                        регистрации и длинные формы.
+                    </p>
+                    <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                        Окошко решает эту проблему радикально просто - мы даем мастеру одну ссылку, 
+                        которой он делится с клиентами. Больше никаких сложностей.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-heart text-purple-600"></i>
+                            </div>
+                            <span class="text-gray-700">Простота превыше всего</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-users text-purple-600"></i>
+                            </div>
+                            <span class="text-gray-700">Забота о мастерах и клиентах</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-rocket text-purple-600"></i>
+                            </div>
+                            <span class="text-gray-700">Постоянное совершенствование</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-br from-purple-100 to-blue-100 rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6">Ключевые принципы</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">Радикальная простота</h4>
+                            <p class="text-gray-600">Убираем все лишнее, оставляем только необходимое</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">Нативность Telegram</h4>
+                            <p class="text-gray-600">Работаем там, где пользователи уже находятся</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">Быстрый старт</h4>
+                            <p class="text-gray-600">От регистрации до первой записи за 5 минут</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">История проекта</h2>
+                <p class="text-xl text-gray-600">Как родилась идея Окошко</p>
+            </div>
+            
+            <div class="space-y-12">
+                <div class="bg-white rounded-2xl p-8 shadow-lg">
+                    <div class="flex items-start space-x-6">
+                        <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-exclamation-triangle text-red-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Проблема</h3>
+                            <p class="text-gray-600 leading-relaxed">
+                                Частные мастера (парикмахеры, мастера маникюра, репетиторы) ведут запись клиентов 
+                                через личные сообщения, звонки или сложные CRM-системы. Это неудобно для всех: 
+                                мастерам приходится постоянно отвечать на сообщения, а клиентам - ждать ответа 
+                                и долго описывать, что им нужно.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-8 shadow-lg">
+                    <div class="flex items-start space-x-6">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-lightbulb text-yellow-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Инсайт</h3>
+                            <p class="text-gray-600 leading-relaxed">
+                                Большинство мастеров и их клиентов уже используют Telegram для общения. 
+                                Почему бы не создать решение прямо внутри мессенджера? Telegram Mini Apps 
+                                позволяют создавать полноценные приложения без необходимости устанавливать 
+                                отдельные приложения.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-8 shadow-lg">
+                    <div class="flex items-start space-x-6">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-rocket text-green-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Решение</h3>
+                            <p class="text-gray-600 leading-relaxed">
+                                Окошко - это сверхлегкий сервис, который дает мастеру одну ссылку. 
+                                Клиент переходит по ссылке, видит услуги и свободное время, выбирает 
+                                подходящий слот в 3 клика - и готово! Никаких регистраций, никаких 
+                                сложных форм.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Видение будущего</h2>
+                <p class="text-xl text-gray-600">Куда мы движемся</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-expand-arrows-alt text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Масштабирование</h3>
+                    <p class="text-gray-600">
+                        Расширение на все сферы услуг: от косметологов до тренеров, 
+                        от репетиторов до мастеров ремонта.
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-brain text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Умные функции</h3>
+                    <p class="text-gray-600">
+                        ИИ-помощник для оптимизации расписания, автоматические напоминания, 
+                        персонализация для постоянных клиентов.
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-globe text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Глобальность</h3>
+                    <p class="text-gray-600">
+                        Поддержка множества языков и локализация для разных рынков, 
+                        интеграция с популярными мессенджерами.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Команда проекта</h2>
+                <p class="text-xl text-gray-600">Люди, которые делают Окошко реальностью</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white rounded-2xl p-8 shadow-lg text-center">
+                    <div class="w-24 h-24 bg-gradient-to-br from-purple-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-user-tie text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Основатель и разработчик</h3>
+                    <p class="text-purple-600 font-semibold mb-4">Идейный вдохновитель проекта</p>
+                    <p class="text-gray-600 leading-relaxed max-w-2xl mx-auto">
+                        Проект создается с нуля одним человеком, который верит в силу простоты. 
+                        Опыт работы с различными технологиями и понимание потребностей рынка 
+                        помогают создать именно то решение, которое нужно мастерам и их клиентам.
+                    </p>
+                    
+                    <div class="mt-8 grid md:grid-cols-3 gap-6 text-center">
+                        <div>
+                            <div class="text-2xl font-bold text-purple-600">3+</div>
+                            <div class="text-gray-600">года в разработке</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-purple-600">10+</div>
+                            <div class="text-gray-600">проектов реализовано</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-purple-600">100%</div>
+                            <div class="text-gray-600">увлеченность проектом</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Наши ценности</h2>
+                <p class="text-xl text-gray-600">Принципы, которыми мы руководствуемся</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-heart text-blue-600"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">Пользователи прежде всего</h3>
+                    <p class="text-gray-600 text-sm">Каждое решение принимается с мыслью о пользователе</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-leaf text-green-600"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">Простота</h3>
+                    <p class="text-gray-600 text-sm">Убираем сложность, оставляем суть</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-alt text-purple-600"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">Надежность</h3>
+                    <p class="text-gray-600 text-sm">Стабильная работа 24/7 без сбоев</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-sync-alt text-orange-600"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">Постоянное развитие</h3>
+                    <p class="text-gray-600 text-sm">Регулярные обновления и новые возможности</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 gradient-bg">
+        <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-white mb-6">
+                Присоединяйтесь к революции простоты
+            </h2>
+            <p class="text-xl text-white/90 mb-8 leading-relaxed">
+                Станьте частью проекта, который меняет подход к записи к мастерам
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="index.html" class="bg-white text-purple-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-colors">
+                    Попробовать Окошко
+                </a>
+                <a href="contacts.html" class="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-purple-600 transition-colors">
+                    Связаться с нами
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="col-span-2">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-window-maximize text-white text-sm"></i>
+                        </div>
+                        <span class="text-xl font-bold">Окошко</span>
+                    </div>
+                    <p class="text-gray-400 mb-4 max-w-md">
+                        Сверхлегкий сервис для онлайн-записи к частным мастерам 
+                        через Telegram Mini App. Простота в 3 клика.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-white mb-4">Навигация</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="index.html" class="hover:text-white transition-colors">Главная</a></li>
+                        <li><a href="about.html" class="hover:text-white transition-colors">О проекте</a></li>
+                        <li><a href="demo.html" class="hover:text-white transition-colors">Демо</a></li>
+                        <li><a href="contacts.html" class="hover:text-white transition-colors">Контакты</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-white mb-4">Проект</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><span>Версия: MVP 1.1</span></li>
+                        <li><span>Статус: В разработке</span></li>
+                        <li><span>Готовность: 60%</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Окошко. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
