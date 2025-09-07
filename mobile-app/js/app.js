@@ -1,5 +1,5 @@
-// Окошко - Mobile App JavaScript
-// Полная логика из demo-phone адаптированная для отдельного приложения
+// Окошко - Mobile App JavaScript с динамической загрузкой услуг
+// Обновленная версия с поддержкой админ-панели
 
 document.addEventListener('DOMContentLoaded', function() {
     initMobileApp();
@@ -13,12 +13,16 @@ let appState = {
     selectedPrice: null,
     selectedDuration: null,
     selectedDate: null,
-    selectedTime: null
+    selectedTime: null,
+    services: [] // Хранение загруженных услуг
 };
 
 // Основная инициализация приложения
 function initMobileApp() {
     console.log('🚀 Окошко Mobile App - Инициализация');
+    
+    // Загрузка услуг из localStorage
+    loadServicesFromStorage();
     
     // Генерация календаря
     generateCalendar();
@@ -36,28 +40,146 @@ function initMobileApp() {
     updateDemoStats();
 }
 
+// Загрузка услуг из localStorage
+function loadServicesFromStorage() {
+    const stored = localStorage.getItem('okoshko_services');
+    
+    if (stored) {
+        try {
+            const allServices = JSON.parse(stored);
+            // Фильтруем только активные услуги
+            appState.services = allServices.filter(service => service.active);
+            console.log(`📦 Загружено ${appState.services.length} активных услуг`);
+        } catch (error) {
+            console.error('❌ Ошибка загрузки услуг:', error);
+            loadDefaultServices();
+        }
+    } else {
+        loadDefaultServices();
+    }
+    
+    // Рендерим услуги
+    renderServices();
+}
+
+// Загрузка услуг по умолчанию
+function loadDefaultServices() {
+    appState.services = [
+        {
+            id: 1,
+            name: 'Классический маникюр',
+            description: 'Базовый уход за ногтями',
+            price: 1500,
+            duration: 60,
+            category: 'manicure',
+            icon: 'fa-hand-sparkles',
+            active: true,
+            popular: false
+        },
+        {
+            id: 2,
+            name: 'Гель-лак',
+            description: 'Долговременное покрытие',
+            price: 2200,
+            duration: 90,
+            category: 'manicure',
+            icon: 'fa-paint-brush',
+            active: true,
+            popular: true
+        },
+        {
+            id: 3,
+            name: 'Дизайн + покрытие',
+            description: 'Художественный дизайн ногтей',
+            price: 3500,
+            duration: 120,
+            category: 'design',
+            icon: 'fa-palette',
+            active: true,
+            popular: true
+        }
+    ];
+    
+    // Сохраняем дефолтные услуги
+    localStorage.setItem('okoshko_services', JSON.stringify(appState.services));
+}
+
+// Рендеринг услуг в UI
+function renderServices() {
+    const container = document.querySelector('#step-1 .space-y-3');
+    
+    if (!container) {
+        console.error('❌ Контейнер для услуг не найден');
+        return;
+    }
+    
+    // Очищаем контейнер
+    container.innerHTML = '';
+    
+    if (appState.services.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-8 text-gray-500">
+                <i class="fas fa-exclamation-circle text-4xl mb-3"></i>
+                <p>Нет доступных услуг</p>
+                <p class="text-sm mt-2">Свяжитесь с администратором</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Рендерим каждую услугу
+    appState.services.forEach(service => {
+        const serviceElement = document.createElement('div');
+        serviceElement.className = 'service-option border-2 border-gray-200 rounded-lg p-4 cursor-pointer hover:border-purple-500 transition-all duration-200';
+        serviceElement.dataset.service = service.id;
+        serviceElement.dataset.price = service.price;
+        serviceElement.dataset.duration = service.duration;
+        
+        serviceElement.innerHTML = `
+            <div class="flex justify-between items-center">
+                <div>
+                    <div class="font-semibold">
+                        ${service.name}
+                        ${service.popular ? '<span class="ml-2 px-2 py-1 bg-orange-100 text-orange-600 rounded text-xs">Популярная</span>' : ''}
+                    </div>
+                    ${service.description ? `<div class="text-sm text-gray-500">${service.description}</div>` : ''}
+                    <div class="text-sm text-gray-600">${service.duration} минут</div>
+                </div>
+                <div class="text-right">
+                    <div class="text-purple-600 font-bold text-lg">${service.price}₽</div>
+                    ${service.icon ? `
+                        <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mt-2 ml-auto">
+                            <i class="fas ${service.icon} text-purple-600 text-sm"></i>
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+        `;
+        
+        // Добавляем обработчик клика
+        serviceElement.addEventListener('click', function(e) {
+            e.preventDefault();
+            selectService(this, service);
+        });
+        
+        container.appendChild(serviceElement);
+    });
+}
+
 // Настройка всех обработчиков событий
 function setupEventListeners() {
-    // Выбор услуги
-    document.querySelectorAll('.service-option').forEach(option => {
-        option.addEventListener('click', function(e) {
-            e.preventDefault();
-            selectService(this);
-        });
-    });
-    
     // Кнопка "Назад" в хедере
-    document.getElementById('back-btn').addEventListener('click', function() {
+    document.getElementById('back-btn')?.addEventListener('click', function() {
         navigateBack();
     });
     
     // Подтверждение записи
-    document.getElementById('confirm-booking').addEventListener('click', function() {
+    document.getElementById('confirm-booking')?.addEventListener('click', function() {
         confirmBooking();
     });
     
     // Перезапуск демо
-    document.getElementById('restart-demo').addEventListener('click', function() {
+    document.getElementById('restart-demo')?.addEventListener('click', function() {
         restartApp();
     });
     
@@ -67,6 +189,14 @@ function setupEventListeners() {
             e.preventDefault();
         });
     });
+    
+    // Слушаем изменения в localStorage (для синхронизации между вкладками)
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'okoshko_services') {
+            console.log('📦 Обнаружены изменения услуг, перезагружаем...');
+            loadServicesFromStorage();
+        }
+    });
 }
 
 // Настройка тач-событий для мобильных устройств
@@ -74,16 +204,17 @@ function setupTouchEvents() {
     // Добавляем haptic feedback симуляцию
     document.addEventListener('touchstart', function(e) {
         if (e.target.closest('button, .service-option, .calendar-day, .time-slot')) {
-            e.target.closest('button, .service-option, .calendar-day, .time-slot').classList.add('haptic-light');
+            const element = e.target.closest('button, .service-option, .calendar-day, .time-slot');
+            element.classList.add('haptic-light');
             setTimeout(() => {
-                e.target.closest('button, .service-option, .calendar-day, .time-slot')?.classList.remove('haptic-light');
+                element.classList.remove('haptic-light');
             }, 100);
         }
     });
 }
 
-// Выбор услуги
-function selectService(element) {
+// Выбор услуги (обновленная версия)
+function selectService(element, service) {
     // Убираем выделение с других опций
     document.querySelectorAll('.service-option').forEach(opt => {
         opt.classList.remove('selected');
@@ -93,15 +224,10 @@ function selectService(element) {
     element.classList.add('selected');
     
     // Сохраняем данные услуги
-    const serviceType = element.dataset.service;
-    const serviceName = element.querySelector('div:first-child > div:first-child').textContent;
-    const servicePrice = element.dataset.price;
-    const serviceDuration = element.dataset.duration;
-    
-    appState.selectedService = serviceType;
-    appState.selectedServiceName = serviceName;
-    appState.selectedPrice = servicePrice;
-    appState.selectedDuration = serviceDuration;
+    appState.selectedService = service.id;
+    appState.selectedServiceName = service.name;
+    appState.selectedPrice = service.price;
+    appState.selectedDuration = service.duration;
     
     // Показываем анимацию выбора
     element.classList.add('haptic-medium');
@@ -127,7 +253,13 @@ function generateCalendar() {
         'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
         'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
     ];
-    document.getElementById('calendar-month').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+    
+    const monthElement = document.getElementById('calendar-month');
+    if (monthElement) {
+        monthElement.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+    }
+    
+    if (!calendarGrid) return;
     
     // Первый день месяца
     const firstDay = new Date(currentYear, currentMonth, 1);
@@ -200,6 +332,8 @@ function showTimeSlots(day, date) {
     const selectedDateSpan = document.getElementById('selected-date');
     const timeGrid = document.getElementById('time-grid');
     
+    if (!timeSlotsContainer || !selectedDateSpan || !timeGrid) return;
+    
     // Обновляем заголовок
     const monthNames = [
         'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
@@ -207,11 +341,9 @@ function showTimeSlots(day, date) {
     ];
     selectedDateSpan.textContent = `${day} ${monthNames[date.getMonth()]}`;
     
-    // Генерируем временные слоты
-    const timeSlots = [
-        '10:00', '11:00', '12:00', '13:00', 
-        '14:00', '15:00', '16:00', '17:00', '18:00'
-    ];
+    // Генерируем временные слоты с учетом длительности услуги
+    const selectedServiceDuration = appState.selectedDuration || 60;
+    const timeSlots = generateTimeSlots(selectedServiceDuration);
     
     // Некоторые слоты делаем недоступными для реалистичности
     const unavailableSlots = getUnavailableSlots(day);
@@ -245,6 +377,26 @@ function showTimeSlots(day, date) {
             block: 'start' 
         });
     }, 100);
+}
+
+// Генерация временных слотов с учетом длительности услуги
+function generateTimeSlots(duration) {
+    const slots = [];
+    const startHour = 10; // Начало рабочего дня
+    const endHour = 18; // Конец рабочего дня
+    const slotInterval = 30; // Интервал между слотами в минутах
+    
+    for (let hour = startHour; hour < endHour; hour++) {
+        for (let minute = 0; minute < 60; minute += slotInterval) {
+            const endTime = hour * 60 + minute + duration;
+            if (endTime <= endHour * 60) {
+                const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+                slots.push(timeString);
+            }
+        }
+    }
+    
+    return slots;
 }
 
 // Получение недоступных слотов (симуляция занятости)
@@ -296,14 +448,18 @@ function showStep(stepNumber) {
     
     // Показываем нужный шаг
     const currentStepElement = document.getElementById(`step-${stepNumber}`);
-    currentStepElement.classList.remove('hidden');
+    if (currentStepElement) {
+        currentStepElement.classList.remove('hidden');
+    }
     
     // Управляем кнопкой "Назад"
     const backBtn = document.getElementById('back-btn');
-    if (stepNumber === 1) {
-        backBtn.classList.add('hidden');
-    } else {
-        backBtn.classList.remove('hidden');
+    if (backBtn) {
+        if (stepNumber === 1) {
+            backBtn.classList.add('hidden');
+        } else {
+            backBtn.classList.remove('hidden');
+        }
     }
     
     // Заполняем данные для шага подтверждения
@@ -327,18 +483,27 @@ function navigateBack() {
 
 // Заполнение данных подтверждения
 function fillConfirmationData() {
-    document.getElementById('selected-service').textContent = appState.selectedServiceName;
+    const serviceElement = document.getElementById('selected-service');
+    const datetimeElement = document.getElementById('selected-datetime');
+    const priceElement = document.getElementById('selected-price');
     
-    const monthNames = [
-        'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
-        'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
-    ];
-    const today = new Date();
+    if (serviceElement) {
+        serviceElement.textContent = appState.selectedServiceName;
+    }
     
-    document.getElementById('selected-datetime').textContent = 
-        `${appState.selectedDate} ${monthNames[today.getMonth()]}, ${appState.selectedTime}`;
+    if (datetimeElement) {
+        const monthNames = [
+            'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+            'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
+        ];
+        const today = new Date();
+        datetimeElement.textContent = 
+            `${appState.selectedDate} ${monthNames[today.getMonth()]}, ${appState.selectedTime}`;
+    }
     
-    document.getElementById('selected-price').textContent = `${appState.selectedPrice}₽`;
+    if (priceElement) {
+        priceElement.textContent = `${appState.selectedPrice}₽`;
+    }
 }
 
 // Подтверждение записи
@@ -346,14 +511,21 @@ function confirmBooking() {
     const button = document.getElementById('confirm-booking');
     const loadingOverlay = document.getElementById('loading-overlay');
     
+    if (!button) return;
+    
     // Показываем состояние загрузки
     button.innerHTML = '<div class="loading-spinner mr-2"></div>Записываем...';
     button.disabled = true;
-    loadingOverlay.classList.remove('hidden');
+    
+    if (loadingOverlay) {
+        loadingOverlay.classList.remove('hidden');
+    }
     
     // Симуляция API запроса
     setTimeout(() => {
-        loadingOverlay.classList.add('hidden');
+        if (loadingOverlay) {
+            loadingOverlay.classList.add('hidden');
+        }
         showStep(4);
         
         // Обновляем статистику
@@ -366,7 +538,33 @@ function confirmBooking() {
         // Обновляем сообщение об успехе
         updateSuccessMessage();
         
+        // Сохраняем запись в истории
+        saveBookingToHistory();
+        
     }, 2500);
+}
+
+// Сохранение записи в истории
+function saveBookingToHistory() {
+    const booking = {
+        id: Date.now(),
+        service: appState.selectedServiceName,
+        date: appState.selectedDate,
+        time: appState.selectedTime,
+        price: appState.selectedPrice,
+        timestamp: new Date().toISOString()
+    };
+    
+    let history = JSON.parse(localStorage.getItem('okoshko_bookings') || '[]');
+    history.unshift(booking);
+    
+    // Храним только последние 50 записей
+    if (history.length > 50) {
+        history = history.slice(0, 50);
+    }
+    
+    localStorage.setItem('okoshko_bookings', JSON.stringify(history));
+    console.log('📝 Запись сохранена в истории');
 }
 
 // Обновление сообщения об успехе
@@ -378,7 +576,10 @@ function updateSuccessMessage() {
     const today = new Date();
     
     const message = `Вы записаны к мастеру Анне Смирновой на ${appState.selectedDate} ${monthNames[today.getMonth()]} в ${appState.selectedTime}`;
-    document.getElementById('success-message').textContent = message;
+    const messageElement = document.getElementById('success-message');
+    if (messageElement) {
+        messageElement.textContent = message;
+    }
 }
 
 // Перезапуск приложения
@@ -387,6 +588,7 @@ function restartApp() {
     
     // Сбрасываем состояние
     appState = {
+        ...appState,
         currentStep: 1,
         selectedService: null,
         selectedServiceName: null,
@@ -410,7 +612,13 @@ function restartApp() {
     });
     
     // Скрываем временные слоты
-    document.getElementById('time-slots').classList.add('hidden');
+    const timeSlotsElement = document.getElementById('time-slots');
+    if (timeSlotsElement) {
+        timeSlotsElement.classList.add('hidden');
+    }
+    
+    // Перезагружаем услуги (могли измениться)
+    loadServicesFromStorage();
     
     // Возвращаемся к первому шагу
     showStep(1);
@@ -426,7 +634,7 @@ function updateDemoStats() {
 }
 
 function incrementDemoViews() {
-    const currentViews = parseInt(localStorage.getItem('mobile-demo-views') || 0);
+    const currentViews = parseInt(localStorage.getItem('mobile-demo-views') || '0');
     const newViews = currentViews + 1;
     localStorage.setItem('mobile-demo-views', newViews);
     
@@ -434,7 +642,7 @@ function incrementDemoViews() {
 }
 
 function incrementDemoCompletions() {
-    const currentCompletions = parseInt(localStorage.getItem('mobile-demo-completions') || 0);
+    const currentCompletions = parseInt(localStorage.getItem('mobile-demo-completions') || '0');
     const newCompletions = currentCompletions + 1;
     localStorage.setItem('mobile-demo-completions', newCompletions);
     
@@ -476,6 +684,17 @@ const AppUtils = {
             hour: '2-digit', 
             minute: '2-digit' 
         });
+    },
+    
+    // Получение истории записей
+    getBookingHistory: function() {
+        return JSON.parse(localStorage.getItem('okoshko_bookings') || '[]');
+    },
+    
+    // Очистка истории записей
+    clearBookingHistory: function() {
+        localStorage.removeItem('okoshko_bookings');
+        console.log('🗑️ История записей очищена');
     }
 };
 
@@ -502,7 +721,8 @@ window.OkoshkoMobileApp = {
     showStep,
     restartApp,
     AppUtils,
-    version: '1.0.0'
+    loadServicesFromStorage,
+    version: '2.0.0' // Обновлена версия
 };
 
-console.log('✅ Окошко Mobile App загружено', window.OkoshkoMobileApp);
+console.log('✅ Окошко Mobile App v2.0 загружено', window.OkoshkoMobileApp);

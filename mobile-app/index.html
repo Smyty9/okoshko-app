@@ -63,36 +63,7 @@
                 
                 <h4 class="font-semibold text-gray-900 mb-4">Выберите услугу:</h4>
                 <div class="space-y-3">
-                    <div class="service-option border-2 border-gray-200 rounded-lg p-4 cursor-pointer hover:border-purple-500 transition-all duration-200" 
-                         data-service="manicure" data-price="1500" data-duration="60">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <div class="font-semibold">Классический маникюр</div>
-                                <div class="text-sm text-gray-600">60 минут</div>
-                            </div>
-                            <div class="text-purple-600 font-bold">1500₽</div>
-                        </div>
-                    </div>
-                    <div class="service-option border-2 border-gray-200 rounded-lg p-4 cursor-pointer hover:border-purple-500 transition-all duration-200" 
-                         data-service="gel" data-price="2200" data-duration="90">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <div class="font-semibold">Гель-лак</div>
-                                <div class="text-sm text-gray-600">90 минут</div>
-                            </div>
-                            <div class="text-purple-600 font-bold">2200₽</div>
-                        </div>
-                    </div>
-                    <div class="service-option border-2 border-gray-200 rounded-lg p-4 cursor-pointer hover:border-purple-500 transition-all duration-200" 
-                         data-service="design" data-price="3500" data-duration="120">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <div class="font-semibold">Дизайн + покрытие</div>
-                                <div class="text-sm text-gray-600">120 минут</div>
-                            </div>
-                            <div class="text-purple-600 font-bold">3500₽</div>
-                        </div>
-                    </div>
+                    <!-- Услуги будут загружены динамически через JavaScript -->
                 </div>
             </div>
             
@@ -230,9 +201,18 @@
                 <p class="text-gray-700">Записываем вас к мастеру...</p>
             </div>
         </div>
+        
+        <!-- Admin Panel Link (только для демонстрации) -->
+        <div class="fixed bottom-4 right-4 z-40">
+            <a href="admin.html" 
+               class="bg-purple-600 text-white p-3 rounded-full shadow-lg hover:bg-purple-700 transition-colors flex items-center justify-center"
+               title="Управление услугами">
+                <i class="fas fa-cog"></i>
+            </a>
+        </div>
     </div>
 
-    <!-- JavaScript -->
+    <!-- Обновленный JavaScript с динамической загрузкой услуг -->
     <script src="js/app.js"></script>
 </body>
 </html>
