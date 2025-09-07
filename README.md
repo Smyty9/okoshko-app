@@ -223,7 +223,7 @@ npx serve .
 - **Telegram**: [@okoshko_app_bot](https://t.me/okoshko_app_bot)
 - **Email**: aximys19991@yandex.ru
 - **GitHub**: [https://github.com/Smyty9/okoshko-app]
-- **Website**: [Ссылка на деплой]
+- **Website**: [(https://okoskomvp.netlify.app/)]
 
 ## 📄 Лицензия
 
