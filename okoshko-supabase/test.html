@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест Supabase - Окошко</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-8 max-w-4xl">
+        <h1 class="text-3xl font-bold text-center mb-8">🎉 Тест Supabase для Окошко</h1>
+        
+        <!-- Статус подключения -->
+        <div id="status" class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Статус подключения:</h2>
+            <div id="connection-status" class="text-gray-600">
+                <span class="animate-pulse">⏳ Проверяем подключение...</span>
+            </div>
+        </div>
+
+        <!-- Список услуг -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Услуги в базе данных:</h2>
+            <div id="services-list" class="space-y-2">
+                <span class="text-gray-500">Загрузка...</span>
+            </div>
+        </div>
+
+        <!-- Форма добавления услуги -->
+        <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-xl font-semibold mb-4">Добавить новую услугу:</h2>
+            <form id="add-service-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Название услуги</label>
+                    <input type="text" id="service-name" required 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                           placeholder="Например: Френч">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Цена (₽)</label>
+                        <input type="number" id="service-price" required 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                               placeholder="2000">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Длительность (мин)</label>
+                        <input type="number" id="service-duration" required 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                               placeholder="60">
+                    </div>
+                </div>
+                <button type="submit" 
+                        class="w-full bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors">
+                    Добавить услугу
+                </button>
+            </form>
+            <div id="form-result" class="mt-4"></div>
+        </div>
+
+        <!-- Инструкции -->
+        <div class="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
+            <h3 class="text-lg font-semibold mb-2">📝 Что проверить:</h3>
+            <ol class="list-decimal list-inside space-y-1 text-gray-700">
+                <li>Статус должен показать "✅ Подключено к Supabase"</li>
+                <li>Должны отобразиться демо-услуги из базы</li>
+                <li>Попробуйте добавить новую услугу через форму</li>
+                <li>Откройте админку: <a href="http://localhost:3000" class="text-blue-600 underline">http://localhost:3000</a></li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Инициализация Supabase
+        const { createClient } = supabase;
+        const supabaseUrl = 'http://localhost:8000';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0';
+        
+        const supabaseClient = createClient(supabaseUrl, supabaseKey);
+
+        // Проверка подключения
+        async function checkConnection() {
+            const statusDiv = document.getElementById('connection-status');
+            try {
+                const { data, error } = await supabaseClient
+                    .from('services')
+                    .select('count')
+                    .limit(1);
+                
+                if (error) throw error;
+                
+                statusDiv.innerHTML = '<span class="text-green-600 font-semibold">✅ Подключено к Supabase!</span>';
+                loadServices();
+            } catch (error) {
+                statusDiv.innerHTML = `<span class="text-red-600">❌ Ошибка подключения: ${error.message}</span>`;
+            }
+        }
+
+        // Загрузка услуг
+        async function loadServices() {
+            const listDiv = document.getElementById('services-list');
+            try {
+                const { data, error } = await supabaseClient
+                    .from('services')
+                    .select('*')
+                    .order('name');
+                
+                if (error) throw error;
+                
+                if (data.length === 0) {
+                    listDiv.innerHTML = '<span class="text-gray-500">Нет услуг в базе данных</span>';
+                } else {
+                    listDiv.innerHTML = data.map(service => `
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
+                            <div>
+                                <span class="font-medium">${service.name}</span>
+                                <span class="text-sm text-gray-500 ml-2">${service.duration} мин</span>
+                            </div>
+                            <span class="text-purple-600 font-bold">${service.price}₽</span>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                listDiv.innerHTML = `<span class="text-red-600">Ошибка загрузки: ${error.message}</span>`;
+            }
+        }
+
+        // Добавление услуги
+        document.getElementById('add-service-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const resultDiv = document.getElementById('form-result');
+            resultDiv.innerHTML = '<span class="text-gray-500">Добавляем...</span>';
+            
+            // Получаем ID мастера
+            const { data: masters } = await supabaseClient
+                .from('masters')
+                .select('id')
+                .limit(1);
+            
+            if (!masters || masters.length === 0) {
+                resultDiv.innerHTML = '<span class="text-red-600">Нет мастера в базе</span>';
+                return;
+            }
+            
+            const serviceData = {
+                master_id: masters[0].id,
+                name: document.getElementById('service-name').value,
+                price: parseInt(document.getElementById('service-price').value),
+                duration: parseInt(document.getElementById('service-duration').value),
+                category: 'other',
+                is_active: true
+            };
+            
+            try {
+                const { data, error } = await supabaseClient
+                    .from('services')
+                    .insert(serviceData)
+                    .select();
+                
+                if (error) throw error;
+                
+                resultDiv.innerHTML = '<span class="text-green-600">✅ Услуга добавлена!</span>';
+                document.getElementById('add-service-form').reset();
+                loadServices();
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="text-red-600">Ошибка: ${error.message}</span>`;
+            }
+        });
+
+        // Запуск при загрузке страницы
+        checkConnection();
+    </script>
+</body>
+</html>

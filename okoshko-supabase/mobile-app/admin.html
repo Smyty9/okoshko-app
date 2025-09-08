@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление услугами - Окошко</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        
+        .service-card {
+            transition: all 0.3s ease;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .service-card:hover {
+            border-color: #8b5cf6;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .modal-backdrop {
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .success-toast {
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Хедер -->
+    <div class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-window-maximize text-purple-600"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Управление услугами</h1>
+                        <p class="text-sm text-gray-600">Окошко - Админ панель</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="openDemoApp()" class="text-gray-600 hover:text-purple-600 transition-colors">
+                        <i class="fas fa-mobile-alt mr-2"></i>
+                        Открыть приложение
+                    </button>
+                    <button onclick="exportServices()" class="text-gray-600 hover:text-purple-600 transition-colors">
+                        <i class="fas fa-download mr-2"></i>
+                        Экспорт
+                    </button>
+                    <button onclick="importServices()" class="text-gray-600 hover:text-purple-600 transition-colors">
+                        <i class="fas fa-upload mr-2"></i>
+                        Импорт
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Статистика -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white rounded-lg p-4 shadow-sm">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-list text-purple-600"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">Всего услуг</p>
+                        <p class="text-2xl font-bold text-gray-900" id="total-services">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg p-4 shadow-sm">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-check-circle text-green-600"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">Активные</p>
+                        <p class="text-2xl font-bold text-gray-900" id="active-services">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg p-4 shadow-sm">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-ruble-sign text-blue-600"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">Средняя цена</p>
+                        <p class="text-2xl font-bold text-gray-900" id="avg-price">0₽</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg p-4 shadow-sm">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-clock text-orange-600"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">Ср. длительность</p>
+                        <p class="text-2xl font-bold text-gray-900" id="avg-duration">0 мин</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Панель действий -->
+        <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                <div class="flex items-center mb-4 sm:mb-0">
+                    <input type="text" 
+                           id="search-input"
+                           placeholder="Поиск услуг..." 
+                           class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 mr-2">
+                    <select id="filter-category" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        <option value="">Все категории</option>
+                        <option value="manicure">Маникюр</option>
+                        <option value="pedicure">Педикюр</option>
+                        <option value="design">Дизайн</option>
+                        <option value="care">Уход</option>
+                    </select>
+                </div>
+                <button onclick="openServiceModal()" class="btn-primary text-white px-6 py-2 rounded-lg font-semibold">
+                    <i class="fas fa-plus mr-2"></i>
+                    Добавить услугу
+                </button>
+            </div>
+        </div>
+
+        <!-- Список услуг -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="services-list">
+            <!-- Услуги будут добавлены через JavaScript -->
+        </div>
+    </div>
+
+    <!-- Модальное окно для добавления/редактирования услуги -->
+    <div id="service-modal" class="hidden fixed inset-0 z-50">
+        <div class="modal-backdrop fixed inset-0 bg-black bg-opacity-50" onclick="closeServiceModal()"></div>
+        <div class="fixed inset-0 flex items-center justify-center p-4">
+            <div class="bg-white rounded-xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto fade-in">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold text-gray-900" id="modal-title">Добавить услугу</h2>
+                        <button onclick="closeServiceModal()" class="text-gray-400 hover:text-gray-600">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                    
+                    <form id="service-form" onsubmit="saveService(event)">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    Название услуги <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" 
+                                       id="service-name" 
+                                       required
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                       placeholder="Например: Классический маникюр">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    Описание
+                                </label>
+                                <textarea id="service-description" 
+                                          rows="3"
+                                          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                          placeholder="Краткое описание услуги"></textarea>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                                        Цена (₽) <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="number" 
+                                           id="service-price" 
+                                           required
+                                           min="0"
+                                           step="50"
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                           placeholder="1500">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                                        Длительность (мин) <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="number" 
+                                           id="service-duration" 
+                                           required
+                                           min="15"
+                                           step="15"
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                           placeholder="60">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    Категория
+                                </label>
+                                <select id="service-category" 
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                    <option value="manicure">Маникюр</option>
+                                    <option value="pedicure">Педикюр</option>
+                                    <option value="design">Дизайн</option>
+                                    <option value="care">Уход</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    Иконка (Font Awesome класс)
+                                </label>
+                                <div class="flex">
+                                    <input type="text" 
+                                           id="service-icon" 
+                                           class="flex-1 px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                           placeholder="fa-hand-sparkles"
+                                           value="fa-hand-sparkles">
+                                    <div class="px-4 py-2 bg-gray-100 border border-l-0 border-gray-300 rounded-r-lg flex items-center">
+                                        <i class="fas fa-hand-sparkles" id="icon-preview"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="flex items-center">
+                                    <input type="checkbox" 
+                                           id="service-active" 
+                                           checked
+                                           class="mr-2 w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500">
+                                    <span class="text-sm font-medium text-gray-700">Услуга активна</span>
+                                </label>
+                            </div>
+                            
+                            <div>
+                                <label class="flex items-center">
+                                    <input type="checkbox" 
+                                           id="service-popular" 
+                                           class="mr-2 w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500">
+                                    <span class="text-sm font-medium text-gray-700">Популярная услуга</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-end space-x-3 mt-6">
+                            <button type="button" 
+                                    onclick="closeServiceModal()" 
+                                    class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+                                Отмена
+                            </button>
+                            <button type="submit" 
+                                    class="btn-primary text-white px-6 py-2 rounded-lg font-semibold">
+                                <i class="fas fa-save mr-2"></i>
+                                Сохранить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast уведомления -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50"></div>
+
+    <!-- Input для импорта (скрытый) -->
+    <input type="file" id="import-input" accept=".json" style="display: none;" onchange="handleImport(event)">
+
+    <script>
+        // Инициализация данных
+        let services = [];
+        let editingServiceId = null;
+
+        // Загрузка услуг при старте
+        document.addEventListener('DOMContentLoaded', function() {
+            loadServices();
+            setupEventListeners();
+        });
+
+        // Настройка обработчиков событий
+        function setupEventListeners() {
+            // Поиск
+            document.getElementById('search-input').addEventListener('input', filterServices);
+            
+            // Фильтр по категории
+            document.getElementById('filter-category').addEventListener('change', filterServices);
+            
+            // Предпросмотр иконки
+            document.getElementById('service-icon').addEventListener('input', function(e) {
+                const preview = document.getElementById('icon-preview');
+                preview.className = `fas ${e.target.value}`;
+            });
+        }
+
+        // Загрузка услуг из localStorage
+        function loadServices() {
+            const stored = localStorage.getItem('okoshko_services');
+            if (stored) {
+                services = JSON.parse(stored);
+            } else {
+                // Демо данные по умолчанию
+                services = [
+                    {
+                        id: Date.now() + 1,
+                        name: 'Классический маникюр',
+                        description: 'Базовый уход за ногтями',
+                        price: 1500,
+                        duration: 60,
+                        category: 'manicure',
+                        icon: 'fa-hand-sparkles',
+                        active: true,
+                        popular: false
+                    },
+                    {
+                        id: Date.now() + 2,
+                        name: 'Гель-лак',
+                        description: 'Долговременное покрытие',
+                        price: 2200,
+                        duration: 90,
+                        category: 'manicure',
+                        icon: 'fa-paint-brush',
+                        active: true,
+                        popular: true
+                    },
+                    {
+                        id: Date.now() + 3,
+                        name: 'Дизайн + покрытие',
+                        description: 'Художественный дизайн ногтей',
+                        price: 3500,
+                        duration: 120,
+                        category: 'design',
+                        icon: 'fa-palette',
+                        active: true,
+                        popular: true
+                    }
+                ];
+                saveToLocalStorage();
+            }
+            renderServices();
+            updateStats();
+        }
+
+        // Отображение услуг
+        function renderServices() {
+            const container = document.getElementById('services-list');
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const categoryFilter = document.getElementById('filter-category').value;
+            
+            let filteredServices = services.filter(service => {
+                const matchesSearch = service.name.toLowerCase().includes(searchTerm) ||
+                                     service.description.toLowerCase().includes(searchTerm);
+                const matchesCategory = !categoryFilter || service.category === categoryFilter;
+                return matchesSearch && matchesCategory;
+            });
+            
+            container.innerHTML = '';
+            
+            if (filteredServices.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <i class="fas fa-search text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500">Услуги не найдены</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredServices.forEach(service => {
+                const card = document.createElement('div');
+                card.className = 'service-card bg-white rounded-lg p-4 relative fade-in';
+                if (!service.active) {
+                    card.classList.add('opacity-60');
+                }
+                
+                card.innerHTML = `
+                    ${service.popular ? '<div class="absolute top-2 right-2 bg-orange-100 text-orange-600 px-2 py-1 rounded text-xs font-semibold">Популярная</div>' : ''}
+                    <div class="flex items-start mb-3">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas ${service.icon} text-purple-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-gray-900">${service.name}</h3>
+                            <p class="text-sm text-gray-600">${service.description}</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center mb-3">
+                        <div class="text-purple-600 font-bold text-lg">${service.price}₽</div>
+                        <div class="text-gray-600 text-sm">
+                            <i class="fas fa-clock mr-1"></i>
+                            ${service.duration} мин
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs mr-2">
+                                ${getCategoryName(service.category)}
+                            </span>
+                            ${service.active ? 
+                                '<span class="px-2 py-1 bg-green-100 text-green-600 rounded text-xs">Активна</span>' : 
+                                '<span class="px-2 py-1 bg-red-100 text-red-600 rounded text-xs">Неактивна</span>'}
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="editService(${service.id})" 
+                                    class="text-blue-600 hover:text-blue-800 transition-colors">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="toggleServiceStatus(${service.id})" 
+                                    class="text-orange-600 hover:text-orange-800 transition-colors">
+                                <i class="fas fa-power-off"></i>
+                            </button>
+                            <button onclick="deleteService(${service.id})" 
+                                    class="text-red-600 hover:text-red-800 transition-colors">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        // Получение названия категории
+        function getCategoryName(category) {
+            const categories = {
+                'manicure': 'Маникюр',
+                'pedicure': 'Педикюр',
+                'design': 'Дизайн',
+                'care': 'Уход'
+            };
+            return categories[category] || category;
+        }
+
+        // Открытие модального окна
+        function openServiceModal(service = null) {
+            const modal = document.getElementById('service-modal');
+            const modalTitle = document.getElementById('modal-title');
+            
+            if (service) {
+                modalTitle.textContent = 'Редактировать услугу';
+                editingServiceId = service.id;
+                
+                // Заполняем форму данными
+                document.getElementById('service-name').value = service.name;
+                document.getElementById('service-description').value = service.description;
+                document.getElementById('service-price').value = service.price;
+                document.getElementById('service-duration').value = service.duration;
+                document.getElementById('service-category').value = service.category;
+                document.getElementById('service-icon').value = service.icon;
+                document.getElementById('service-active').checked = service.active;
+                document.getElementById('service-popular').checked = service.popular;
+                
+                // Обновляем предпросмотр иконки
+                document.getElementById('icon-preview').className = `fas ${service.icon}`;
+            } else {
+                modalTitle.textContent = 'Добавить услугу';
+                editingServiceId = null;
+                document.getElementById('service-form').reset();
+                document.getElementById('icon-preview').className = 'fas fa-hand-sparkles';
+            }
+            
+            modal.classList.remove('hidden');
+        }
+
+        // Закрытие модального окна
+        function closeServiceModal() {
+            document.getElementById('service-modal').classList.add('hidden');
+            editingServiceId = null;
+        }
+
+        // Сохранение услуги
+        function saveService(event) {
+            event.preventDefault();
+            
+            const serviceData = {
+                name: document.getElementById('service-name').value,
+                description: document.getElementById('service-description').value,
+                price: parseInt(document.getElementById('service-price').value),
+                duration: parseInt(document.getElementById('service-duration').value),
+                category: document.getElementById('service-category').value,
+                icon: document.getElementById('service-icon').value || 'fa-hand-sparkles',
+                active: document.getElementById('service-active').checked,
+                popular: document.getElementById('service-popular').checked
+            };
+            
+            if (editingServiceId) {
+                // Редактирование существующей услуги
+                const index = services.findIndex(s => s.id === editingServiceId);
+                if (index !== -1) {
+                    services[index] = { ...services[index], ...serviceData };
+                    showToast('Услуга успешно обновлена', 'success');
+                }
+            } else {
+                // Добавление новой услуги
+                serviceData.id = Date.now();
+                services.push(serviceData);
+                showToast('Услуга успешно добавлена', 'success');
+            }
+            
+            saveToLocalStorage();
+            renderServices();
+            updateStats();
+            closeServiceModal();
+        }
+
+        // Редактирование услуги
+        function editService(id) {
+            const service = services.find(s => s.id === id);
+            if (service) {
+                openServiceModal(service);
+            }
+        }
+
+        // Переключение статуса услуги
+        function toggleServiceStatus(id) {
+            const service = services.find(s => s.id === id);
+            if (service) {
+                service.active = !service.active;
+                saveToLocalStorage();
+                renderServices();
+                updateStats();
+                showToast(`Услуга ${service.active ? 'активирована' : 'деактивирована'}`, 'info');
+            }
+        }
+
+        // Удаление услуги
+        function deleteService(id) {
+            if (confirm('Вы уверены, что хотите удалить эту услугу?')) {
+                services = services.filter(s => s.id !== id);
+                saveToLocalStorage();
+                renderServices();
+                updateStats();
+                showToast('Услуга удалена', 'warning');
+            }
+        }
+
+        // Фильтрация услуг
+        function filterServices() {
+            renderServices();
+        }
+
+        // Обновление статистики
+        function updateStats() {
+            const activeServices = services.filter(s => s.active);
+            
+            document.getElementById('total-services').textContent = services.length;
+            document.getElementById('active-services').textContent = activeServices.length;
+            
+            if (services.length > 0) {
+                const avgPrice = Math.round(services.reduce((sum, s) => sum + s.price, 0) / services.length);
+                const avgDuration = Math.round(services.reduce((sum, s) => sum + s.duration, 0) / services.length);
+                
+                document.getElementById('avg-price').textContent = avgPrice + '₽';
+                document.getElementById('avg-duration').textContent = avgDuration + ' мин';
+            } else {
+                document.getElementById('avg-price').textContent = '0₽';
+                document.getElementById('avg-duration').textContent = '0 мин';
+            }
+        }
+
+        // Сохранение в localStorage
+        function saveToLocalStorage() {
+            localStorage.setItem('okoshko_services', JSON.stringify(services));
+        }
+
+        // Экспорт услуг
+        function exportServices() {
+            const dataStr = JSON.stringify(services, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `okoshko_services_${new Date().toISOString().split('T')[0]}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showToast('Услуги экспортированы', 'success');
+        }
+
+        // Импорт услуг
+        function importServices() {
+            document.getElementById('import-input').click();
+        }
+
+        // Обработка импорта
+        function handleImport(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const imported = JSON.parse(e.target.result);
+                        if (Array.isArray(imported)) {
+                            services = imported;
+                            saveToLocalStorage();
+                            renderServices();
+                            updateStats();
+                            showToast('Услуги успешно импортированы', 'success');
+                        } else {
+                            showToast('Неверный формат файла', 'error');
+                        }
+                    } catch (error) {
+                        showToast('Ошибка при импорте файла', 'error');
+                    }
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        // Открытие демо приложения
+        function openDemoApp() {
+            // Создаем временное окно с приложением
+            const demoWindow = window.open('', 'OkoshkoDemo', 'width=400,height=800');
+            
+            // HTML для демо приложения
+            const demoHTML = `
+                <!DOCTYPE html>
+                <html lang="ru">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Окошко - Запись к мастеру</title>
+                    <script src="https://cdn.tailwindcss.com"><\/script>
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+                    <style>
+                        .service-option { cursor: pointer; transition: all 0.2s; }
+                        .service-option:hover { border-color: #8b5cf6; transform: translateY(-2px); }
+                        .service-option.selected { background: #f3f4f6; border-color: #8b5cf6; }
+                    </style>
+                </head>
+                <body class="bg-gray-100">
+                    <div class="bg-blue-500 text-white p-4">
+                        <div class="font-semibold">Окошко</div>
+                        <div class="text-xs opacity-75">@okoshko_app_bot</div>
+                    </div>
+                    
+                    <div class="p-6 bg-white min-h-screen">
+                        <div class="text-center mb-6">
+                            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-user text-purple-600 text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-bold">Анна Смирнова</h3>
+                            <p class="text-gray-600">Мастер маникюра</p>
+                        </div>
+                        
+                        <h4 class="font-semibold mb-4">Выберите услугу:</h4>
+                        <div id="demo-services" class="space-y-3"></div>
+                    </div>
+                    
+                    <script>
+                        // Загружаем услуги из localStorage
+                        const services = JSON.parse(localStorage.getItem('okoshko_services') || '[]');
+                        const container = document.getElementById('demo-services');
+                        
+                        const activeServices = services.filter(s => s.active);
+                        
+                        if (activeServices.length === 0) {
+                            container.innerHTML = '<p class="text-gray-500 text-center">Нет активных услуг</p>';
+                        } else {
+                            activeServices.forEach(service => {
+                                const serviceEl = document.createElement('div');
+                                serviceEl.className = 'service-option border-2 border-gray-200 rounded-lg p-4';
+                                serviceEl.innerHTML = \`
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <div class="font-semibold">\${service.name}</div>
+                                            <div class="text-sm text-gray-600">\${service.duration} минут</div>
+                                        </div>
+                                        <div class="text-purple-600 font-bold">\${service.price}₽</div>
+                                    </div>
+                                    \${service.popular ? '<div class="text-xs text-orange-600 mt-2">⭐ Популярная услуга</div>' : ''}
+                                \`;
+                                serviceEl.addEventListener('click', function() {
+                                    document.querySelectorAll('.service-option').forEach(el => el.classList.remove('selected'));
+                                    this.classList.add('selected');
+                                    setTimeout(() => {
+                                        alert('Выбрана услуга: ' + service.name + '\\nЭто демо-версия приложения');
+                                    }, 500);
+                                });
+                                container.appendChild(serviceEl);
+                            });
+                        }
+                    <\/script>
+                </body>
+                </html>
+            `;
+            
+            demoWindow.document.write(demoHTML);
+            demoWindow.document.close();
+        }
+
+        // Показ уведомлений
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            const colors = {
+                success: 'bg-green-500',
+                error: 'bg-red-500',
+                warning: 'bg-orange-500',
+                info: 'bg-blue-500'
+            };
+            
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-times-circle',
+                warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle'
+            };
+            
+            toast.className = `${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg flex items-center mb-3 success-toast`;
+            toast.innerHTML = `
+                <i class="fas ${icons[type]} mr-3"></i>
+                <span>${message}</span>
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease-in forwards';
+                setTimeout(() => {
+                    container.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

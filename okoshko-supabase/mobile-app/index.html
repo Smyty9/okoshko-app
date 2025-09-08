@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#5682d1">
+    
+    <title>Окошко - Запись к мастеру</title>
+    <meta name="description" content="Простая запись к мастеру в три клика через Telegram Mini App">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/app.css">
+    
+</head>
+<body class="bg-gray-100 font-inter">
+    <!-- App Container -->
+    <div id="app" class="min-h-screen">
+        <!-- Telegram Header -->
+        <div class="telegram-header bg-blue-500 text-white p-4 flex items-center sticky top-0 z-50">
+            <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-3">
+                <i class="fas fa-window-maximize text-sm"></i>
+            </div>
+            <div class="flex-1">
+                <div class="font-semibold">Окошко</div>
+                <div class="text-xs opacity-75">@okoshko_app_bot</div>
+            </div>
+            <!-- Back button for non-first steps -->
+            <button id="back-btn" class="hidden w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                <i class="fas fa-arrow-left text-sm"></i>
+            </button>
+        </div>
+        
+        <!-- Main Content -->
+        <div id="main-content" class="bg-white min-h-screen">
+            
+            <!-- Step 1: Master Info & Service Selection -->
+            <div id="step-1" class="step-content p-6">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-user text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900">Анна Смирнова</h3>
+                    <p class="text-gray-600">Мастер маникюра</p>
+                    <div class="flex items-center justify-center mt-2 text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span class="text-gray-600 ml-2">5.0 (47 отзывов)</span>
+                    </div>
+                </div>
+                
+                <h4 class="font-semibold text-gray-900 mb-4">Выберите услугу:</h4>
+                <div class="space-y-3">
+                    <!-- Услуги будут загружены динамически через JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Step 2: Calendar & Time Selection -->
+            <div id="step-2" class="step-content p-6 hidden">
+                <h4 class="font-semibold text-gray-900 mb-4">Выберите дату и время:</h4>
+                
+                <!-- Calendar -->
+                <div class="mb-6">
+                    <div class="text-center mb-4">
+                        <h5 class="font-semibold" id="calendar-month">Сентябрь 2025</h5>
+                    </div>
+                    <div class="grid grid-cols-7 gap-1 mb-4">
+                        <div class="text-center text-xs text-gray-500 p-2 font-medium">Пн</div>
+                        <div class="text-center text-xs text-gray-500 p-2 font-medium">Вт</div>
+                        <div class="text-center text-xs text-gray-500 p-2 font-medium">Ср</div>
+                        <div class="text-center text-xs text-gray-500 p-2 font-medium">Чт</div>
+                        <div class="text-center text-xs text-gray-500 p-2 font-medium">Пт</div>
+                        <div class="text-center text-xs text-gray-500 p-2 font-medium">Сб</div>
+                        <div class="text-center text-xs text-gray-500 p-2 font-medium">Вс</div>
+                    </div>
+                    <div class="grid grid-cols-7 gap-1" id="calendar-grid">
+                        <!-- Calendar будет сгенерирован JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Time Slots -->
+                <div id="time-slots" class="hidden">
+                    <h5 class="font-semibold text-gray-900 mb-3">Доступное время на <span id="selected-date"></span>:</h5>
+                    <div class="grid grid-cols-2 gap-2" id="time-grid">
+                        <!-- Time slots will be generated by JS -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 3: Booking Confirmation -->
+            <div id="step-3" class="step-content p-6 hidden">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-check text-green-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900">Подтвердите запись</h3>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Мастер:</span>
+                            <span class="font-semibold">Анна Смирнова</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600 mr-4">Услуга:</span>
+                            <span class="font-semibold text-right" id="selected-service">-</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Дата:</span>
+                            <span class="font-semibold" id="selected-datetime">-</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Стоимость:</span>
+                            <span class="font-semibold text-purple-600" id="selected-price">-</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-blue-50 rounded-lg p-4 mb-6">
+                    <h5 class="font-semibold text-gray-900 mb-2">Ваши данные:</h5>
+                    <div class="space-y-1">
+                        <div class="flex items-center">
+                            <i class="fas fa-user w-5 text-blue-600 mr-2"></i>
+                            <span>Иван Петров</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fab fa-telegram w-5 text-blue-600 mr-2"></i>
+                            <span>@ivan_petrov</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-600 mt-2">
+                        Данные автоматически взяты из вашего Telegram профиля
+                    </p>
+                </div>
+                
+                <button id="confirm-booking" 
+                        class="w-full bg-green-500 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-600 transition-colors active:scale-95 transform duration-100">
+                    <i class="fas fa-check mr-2"></i>
+                    Записаться
+                </button>
+            </div>
+            
+            <!-- Step 4: Success -->
+            <div id="step-4" class="step-content p-6 hidden">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 success-checkmark">
+                        <i class="fas fa-check-circle text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Запись успешно создана!</h3>
+                    <p class="text-gray-600 mb-6" id="success-message">
+                        Вы записаны к мастеру Анне Смирновой
+                    </p>
+                    
+                    <div class="bg-blue-50 rounded-lg p-4 mb-6 text-left">
+                        <h5 class="font-semibold text-gray-900 mb-3 flex items-center">
+                            <i class="fas fa-mobile-alt mr-2 text-blue-600"></i>
+                            Что дальше:
+                        </h5>
+                        <ul class="text-sm text-gray-700 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-bell text-orange-500 mr-2 mt-0.5 text-xs"></i>
+                                <span>Вы получите напоминание за день до визита</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-phone text-blue-500 mr-2 mt-0.5 text-xs"></i>
+                                <span>Мастер свяжется с вами для уточнения деталей</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times-circle text-red-500 mr-2 mt-0.5 text-xs"></i>
+                                <span>Если нужно отменить запись, напишите мастеру</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <button id="restart-demo" 
+                            class="w-full bg-purple-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-purple-700 transition-colors active:scale-95 transform duration-100">
+                        <i class="fas fa-redo mr-2"></i>
+                        Попробовать еще раз
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-lg p-6 text-center">
+                <div class="loading-spinner w-8 h-8 mx-auto mb-4"></div>
+                <p class="text-gray-700">Записываем вас к мастеру...</p>
+            </div>
+        </div>
+        
+        <!-- Admin Panel Link (только для демонстрации) -->
+        <div class="fixed bottom-4 right-4 z-40">
+            <a href="admin.html" 
+               class="bg-purple-600 text-white p-3 rounded-full shadow-lg hover:bg-purple-700 transition-colors flex items-center justify-center"
+               title="Управление услугами">
+                <i class="fas fa-cog"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Обновленный JavaScript с динамической загрузкой услуг -->
+    <script src="js/app.js"></script>
+</body>
+</html>

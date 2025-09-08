@@ -1,0 +1,438 @@
+/* Mobile App CSS - Окошко */
+/* Полная адаптация стилей из demo-phone для отдельного приложения */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    overflow-x: hidden;
+}
+
+.font-inter {
+    font-family: 'Inter', sans-serif;
+}
+
+/* App Container */
+#app {
+    max-width: 100vw;
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for mobile */
+    overflow-x: hidden;
+}
+
+/* Telegram Header */
+.telegram-header {
+    background: #5682d1;
+    box-shadow: 0 2px 8px rgba(86, 130, 209, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Main Content */
+#main-content {
+    min-height: calc(100vh - 72px);
+    min-height: calc(100dvh - 72px);
+    position: relative;
+}
+
+/* Step Navigation */
+.step-content {
+    min-height: calc(100vh - 72px);
+    min-height: calc(100dvh - 72px);
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.step-content.slide-out {
+    animation: slideOut 0.3s ease-in forwards;
+}
+
+@keyframes slideOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+}
+
+/* Service Options */
+.service-option {
+    position: relative;
+    transition: all 0.2s ease;
+    background: #ffffff;
+    border: 2px solid #e5e7eb;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+.service-option:hover {
+    border-color: #8b5cf6;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+    transform: translateY(-2px);
+}
+
+.service-option:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.service-option.selected {
+    border-color: #8b5cf6;
+    background: #f3f4f6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.service-option.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 20px;
+    height: 20px;
+    background: #8b5cf6;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Calendar Styles */
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    position: relative;
+    touch-action: manipulation;
+}
+
+.calendar-day:hover {
+    background-color: #8b5cf6;
+    color: white;
+    transform: scale(1.05);
+    z-index: 10;
+}
+
+.calendar-day.available {
+    background-color: #10b981;
+    color: white;
+    border-color: #059669;
+}
+
+.calendar-day.available:hover {
+    background-color: #059669;
+}
+
+.calendar-day.selected {
+    background-color: #8b5cf6;
+    color: white;
+    border-color: #7c3aed;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+    z-index: 10;
+}
+
+.calendar-day.disabled {
+    color: #d1d5db;
+    cursor: not-allowed;
+    background-color: #f9fafb;
+}
+
+.calendar-day.today {
+    font-weight: 700;
+    position: relative;
+}
+
+.calendar-day.today::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: currentColor;
+    border-radius: 50%;
+}
+
+/* Time Slots */
+.time-slot {
+    padding: 12px 8px;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    touch-action: manipulation;
+}
+
+.time-slot.available {
+    background-color: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+}
+
+.time-slot.available:hover {
+    background-color: #d1fae5;
+    border-color: #6ee7b7;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.2);
+}
+
+.time-slot.available:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.time-slot.selected {
+    background-color: #8b5cf6;
+    color: white;
+    border: 1px solid #7c3aed;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(139, 92, 246, 0.3);
+}
+
+.time-slot.disabled {
+    background-color: #f3f4f6;
+    color: #9ca3af;
+    cursor: not-allowed;
+    border: 1px solid #e5e7eb;
+}
+
+/* Buttons */
+button {
+    touch-action: manipulation;
+    transition: all 0.2s ease;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+    box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-success:hover:not(:disabled) {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+/* Loading States */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #ffffff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Success Animation */
+.success-checkmark {
+    animation: successPulse 0.8s ease-out;
+}
+
+@keyframes successPulse {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Overlay */
+#loading-overlay {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+/* Mobile Specific Adjustments */
+@media (max-width: 480px) {
+    .step-content {
+        padding: 1rem;
+    }
+    
+    .calendar-day {
+        font-size: 12px;
+    }
+    
+    .time-slot {
+        padding: 10px 6px;
+        font-size: 14px;
+    }
+    
+    .service-option {
+        padding: 12px;
+    }
+}
+
+/* iPhone Safe Areas */
+@supports (padding-top: constant(safe-area-inset-top)) {
+    .telegram-header {
+        padding-top: calc(constant(safe-area-inset-top) + 1rem);
+    }
+}
+
+@supports (padding-top: env(safe-area-inset-top)) {
+    .telegram-header {
+        padding-top: calc(env(safe-area-inset-top) + 1rem);
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .step-content {
+        background-color: #1f2937;
+        color: #f9fafb;
+    }
+    
+    .service-option {
+        background-color: #374151;
+        border-color: #4b5563;
+        color: #f9fafb;
+    }
+    
+    .calendar-day.disabled {
+        background-color: #374151;
+        color: #6b7280;
+    }
+}
+
+/* Haptic Feedback Simulation */
+.haptic-light {
+    animation: hapticLight 0.1s ease-out;
+}
+
+@keyframes hapticLight {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+.haptic-medium {
+    animation: hapticMedium 0.15s ease-out;
+}
+
+@keyframes hapticMedium {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Prevent text selection on touch */
+.no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Custom scrollbar for webkit */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus states for keyboard navigation */
+button:focus-visible,
+.service-option:focus-visible,
+.calendar-day:focus-visible,
+.time-slot:focus-visible {
+    outline: 2px solid #8b5cf6;
+    outline-offset: 2px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .service-option,
+    .calendar-day,
+    .time-slot {
+        border-width: 2px;
+    }
+    
+    .service-option.selected,
+    .calendar-day.selected,
+    .time-slot.selected {
+        border-width: 3px;
+    }
+}
